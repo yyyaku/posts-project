@@ -1,24 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
+import Counter from "./components/Counter";
 
 function App() {
-  const [likes, setLikes] = useState(5)
-  const [value, setValue] = useState('123')
-
-  function minus() {
-    setLikes(likes - 1)
-  }
-
-  function plus() {
-    setLikes(likes + 1)
-  }
-
   return (
     <div className="App">
-      <h1>{likes}</h1>
-      <h2>{value}</h2>
-      <input type="text" value={value} onChange={event => setValue(event.target.value)}></input>
-      <button onClick={minus}>minus</button>
-      <button onClick={plus}>plus</button>
+      <Counter></Counter>
     </div>
   );
 }
