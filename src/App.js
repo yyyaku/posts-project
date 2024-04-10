@@ -3,6 +3,8 @@ import React, { useState } from "react";
 // import ClassCounter from "./components/ClassCounter";
 import './styles/App.css'
 import PostList from "./components/PostList";
+import MyButton from "./components/UI/button/MyButton";
+import MyInput from "./components/UI/input/MyInput";
 
 function App() {
 
@@ -14,6 +16,11 @@ function App() {
 
   return (
     <div className="App">
+      <form>
+        <MyInput type="text" placeholder="Название поста"></MyInput>
+        <MyInput type="text" placeholder="Описание поста"></MyInput>
+        <MyButton>Добавить пост</MyButton>
+      </form>
       <PostList posts={posts} title="Спиосок постов 1"></PostList>
     </div>
   );
