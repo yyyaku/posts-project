@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 // import Counter from "./components/Counter";
 // import ClassCounter from "./components/ClassCounter";
 import './styles/App.css'
@@ -14,12 +14,32 @@ function App() {
     {id:3, title:'JS 3', body:'JS - язык програмирования'},
   ])
 
+  const [title, setTitle] = useState('')
+  const refMyInput = useRef()
+
+  const addNewPost = (e) => {
+    e.preventDefault()
+    console.log(title)
+    console.log(refMyInput.current.value)
+  }
+
   return (
     <div className="App">
       <form>
-        <MyInput type="text" placeholder="Название поста"></MyInput>
-        <MyInput type="text" placeholder="Описание поста"></MyInput>
-        <MyButton>Добавить пост</MyButton>
+        {/* Управляемый компонент */}
+        <MyInput
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+          type="text"
+          placeholder="Название поста">
+        </MyInput>
+        {/* Неуправляемый/неконтролируемый компонент */}
+        <MyInput
+          ref={refMyInput}
+          type="text"
+          placeholder="Описание поста">
+        </MyInput>
+        <MyButton onClick={addNewPost}>Добавить пост</MyButton>
       </form>
       <PostList posts={posts} title="Спиосок постов 1"></PostList>
     </div>
