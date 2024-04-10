@@ -15,12 +15,22 @@ function App() {
   ])
 
   const [title, setTitle] = useState('')
-  const refMyInput = useRef()
+  const [body, setBody] = useState('')
 
   const addNewPost = (e) => {
     e.preventDefault()
-    console.log(title)
-    console.log(refMyInput.current.value)
+    // Создаем новый объект
+    const newPost={
+      id: Date.now(),
+      title,
+      body
+    }
+    // Созданый новый объект добавляем в массив постов:
+    // для этого мы не изменяем состояние напрямую - вызываем функцию setPosts,
+    // куда передаем новый массив = разворачиваем старый массив(...posts) и добавляем новый пост(newPost)
+    setPosts([...posts, newPost])
+    setTitle('')
+    setBody('')
   }
 
   return (
@@ -35,7 +45,8 @@ function App() {
         </MyInput>
         {/* Неуправляемый/неконтролируемый компонент */}
         <MyInput
-          ref={refMyInput}
+          value={body}
+          onChange={e=>setBody(e.target.value)}
           type="text"
           placeholder="Описание поста">
         </MyInput>
