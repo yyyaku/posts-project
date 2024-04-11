@@ -13,24 +13,16 @@ function App() {
     {id:2, title:'JS 2', body:'JS - язык програмирования'},
     {id:3, title:'JS 3', body:'JS - язык програмирования'},
   ])
-
-  const [title, setTitle] = useState('')
-  const [body, setBody] = useState('')
+  const [post, setPost] = useState({title: '', body: ''})
 
   const addNewPost = (e) => {
     e.preventDefault()
     // Создаем новый объект
-    const newPost={
-      id: Date.now(),
-      title,
-      body
-    }
     // Созданый новый объект добавляем в массив постов:
     // для этого мы не изменяем состояние напрямую - вызываем функцию setPosts,
     // куда передаем новый массив = разворачиваем старый массив(...posts) и добавляем новый пост(newPost)
-    setPosts([...posts, newPost])
-    setTitle('')
-    setBody('')
+    setPosts([...posts, {...post, id: Date.now()}])
+    setPost({title: '', body: ''})
   }
 
   return (
@@ -38,15 +30,15 @@ function App() {
       <form>
         {/* Управляемый компонент */}
         <MyInput
-          value={title}
-          onChange={e => setTitle(e.target.value)}
+          value={post.title}
+          onChange={e => setPost({...post, title: e.target.value})}
           type="text"
           placeholder="Название поста">
         </MyInput>
         {/* Неуправляемый/неконтролируемый компонент */}
         <MyInput
-          value={body}
-          onChange={e=>setBody(e.target.value)}
+          value={post.body}
+          onChange={e => setPost({...post, body: e.target.value})}
           type="text"
           placeholder="Описание поста">
         </MyInput>
