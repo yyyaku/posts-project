@@ -1,11 +1,11 @@
 import React from "react";
 
-const MySelect = ({ options, defoultValue, value, onChange}) => {
+const MySelect = ({ options, defoultValue, value, onChange }) => {
     return (
         <select
-        value={value}
-        // передаем не сам event, а значение, который выбрал пользователь-onChange(e.target.value)
-        onChange={e => onChange(e.target.value)}
+            value={value}
+            // передаем не сам event, а значение, который выбрал пользователь-onChange(e.target.value)
+            onChange={(e) => onChange(e.target.value)}
         >
             <option disabled value=''>
                 {defoultValue}
