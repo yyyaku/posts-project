@@ -38,7 +38,7 @@
 }
 
 .page-wrapper {
-    margin-top: 30px;
+    margin: 30px;
     display: flex;
     justify-content: center;
     gap: 5px;
