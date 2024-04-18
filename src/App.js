@@ -9,6 +9,8 @@ import { usePosts } from "./components/hooks/usePosts";
 import PostService from "./components/API/PostSerice";
 import MyLoader from "./components/UI/loader/MyLoader";
 import { useFetching } from "./components/hooks/useFetching";
+import { getArrayPages, getPagesCount } from "./components/util/pages";
+import MyPagination from "./components/UI/pagination/MyPagination";
 
 
 function App() {
@@ -18,9 +20,14 @@ function App() {
   const [filter, setFilter] = useState({sort: '', query: ''})
   const [visable, setVisable] = useState(false)
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
+  const [totalPages, setTotalPages] = useState(0)
+  const [limit, setLimit] = useState(10)
+  const [page, setPage] = useState(1)
   const [fetchPosts, isPostsLoading, postsError] = useFetching( async () => {
-    const posts = await PostService.getAll()
-    setPosts(posts)
+    const response = await PostService.getAll(limit, page)
+    setPosts(response.data)
+    const totalCount = response.headers['x-total-count']
+    setTotalPages(getPagesCount(totalCount, limit))
   })
 
   const createPost = (newPost) => {
@@ -32,9 +39,13 @@ function App() {
     setPosts(posts.filter(p => p.id !== post.id))
   }
 
+  const changePage = (page) => {
+    setPage(page)
+  }
+
   useEffect(()=> {
     fetchPosts()
-  }, [])
+  }, [page])
 
   return (
     <div className="App">
@@ -49,6 +60,7 @@ function App() {
         ? <div style={{display: 'flex', justifyContent: 'center', marginTop: '50px'}}><MyLoader></MyLoader></div>
         : <PostList remove={removePost} posts={sortedAndSearchedPosts} title="Спиосок постов!"></PostList>
       }
+      <MyPagination page={page} totalPages={totalPages} changePage={changePage}></MyPagination>
     </div>
   );
 }
