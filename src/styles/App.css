@@ -6,11 +6,12 @@
 
 #root {
     display: flex;
-    justify-content: center;
+    align-items: center;
 }
 
 .App {
     width: 800px;
+    margin: 0 auto;
 }
 
 .post {
@@ -53,4 +54,10 @@
 .page__current {
     border: 2px solid orange;
     font-weight: bold;
+}
+
+.about-wrapper,
+.error-wrapper {
+    display: flex;
+    justify-content: center;
 }
