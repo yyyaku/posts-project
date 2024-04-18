@@ -1,0 +1,24 @@
+.nav {
+    height: 50px;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    background-color: lightskyblue;
+}
+
+.nav__links {
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+}
+
+.nav__link {
+    padding: 5px 15px;
+    color: teal;
+    font-size: 14px;
+    background: transparent;
+    border: 1px solid teal;
+    text-decoration: none;
+    cursor: pointer;
+}
