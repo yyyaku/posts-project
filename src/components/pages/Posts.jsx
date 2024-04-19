@@ -71,7 +71,7 @@ function Posts() {
                 <PostList
                     remove={removePost}
                     posts={sortedAndSearchedPosts}
-                    title='Спиосок постов!'
+                    title='Список постов!'
                 ></PostList>
             )}
             {postsError && <h1>Ошибка при загрузке данных!!! &{postsError}</h1>}
