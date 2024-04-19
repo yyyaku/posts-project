@@ -26,7 +26,7 @@ const PostIdPage = () => {
     }, []);
 
     return (
-        <div>
+        <div className='App'>
             <h1>Страница поста c ID = {params.id}</h1>
             {isPostLoading ? (
                 <MyLoader></MyLoader>
