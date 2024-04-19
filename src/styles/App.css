@@ -10,7 +10,7 @@
 }
 
 .App {
-    width: 800px;
+    max-width: 800px;
     margin: 0 auto;
 }
 
@@ -60,10 +60,4 @@
 .page__current {
     border: 2px solid orange;
     font-weight: bold;
-}
-
-.about-wrapper,
-.error-wrapper {
-    display: flex;
-    justify-content: center;
 }
