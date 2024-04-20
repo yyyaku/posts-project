@@ -6,12 +6,15 @@ import { AuthContext } from "../../context";
 
 const Nav = () => {
     const { setIsAuth } = useContext(AuthContext);
-    const exit = () => {
+    const logout = () => {
         setIsAuth(false);
+        localStorage.removeItem("Auth");
     };
     return (
         <div className={cl.nav}>
-            <MyButton onClick={exit}>Выйти</MyButton>
+            <MyButton onClick={logout}>
+                <Link to='/posts'>Выйти</Link>
+            </MyButton>
             <div className={cl.nav__links}>
                 <Link className={cl.nav__link} to='/about'>
                     О сайте
