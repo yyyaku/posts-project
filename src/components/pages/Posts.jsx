@@ -8,13 +8,12 @@ import { usePosts } from "../hooks/usePosts";
 import PostService from "../API/PostSerice";
 import MyLoader from "../UI/loader/MyLoader";
 import { useFetching } from "../hooks/useFetching";
-import { getArrayPages, getPagesCount } from "../util/pages";
+import { getPagesCount } from "../util/pages";
 import MyPagination from "../UI/pagination/MyPagination";
 import MySelect from "../UI/select/MySelect";
 
 function Posts() {
     const [posts, setPosts] = useState([]);
-
     const [filter, setFilter] = useState({ sort: "", query: "" });
     const [visable, setVisable] = useState(false);
     const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
@@ -28,6 +27,10 @@ function Posts() {
         setTotalPages(getPagesCount(totalCount, limit));
     });
 
+    useEffect(() => {
+        fetchPosts();
+    }, [page, limit]);
+
     const createPost = (newPost) => {
         setPosts([...posts, newPost]);
         setVisable(false);
@@ -40,10 +43,6 @@ function Posts() {
     const changePage = (page) => {
         setPage(page);
     };
-
-    useEffect(() => {
-        fetchPosts();
-    }, [page]);
 
     return (
         <div className='App'>
@@ -60,7 +59,7 @@ function Posts() {
             <PostFilter filter={filter} setFilter={setFilter}></PostFilter>
             <MySelect
                 value={limit}
-                onChange={(limit) => setLimit(limit)}
+                onChange={(value) => setLimit(value)}
                 defoultValue={"Количесвто страниц"}
                 options={[
                     { value: 5, name: "5" },
