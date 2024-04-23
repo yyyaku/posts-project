@@ -10,6 +10,7 @@ import MyLoader from "../UI/loader/MyLoader";
 import { useFetching } from "../hooks/useFetching";
 import { getArrayPages, getPagesCount } from "../util/pages";
 import MyPagination from "../UI/pagination/MyPagination";
+import MySelect from "../UI/select/MySelect";
 
 function Posts() {
     const [posts, setPosts] = useState([]);
@@ -18,7 +19,7 @@ function Posts() {
     const [visable, setVisable] = useState(false);
     const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
     const [totalPages, setTotalPages] = useState(0);
-    const [limit, setLimit] = useState(10);
+    const [limit, setLimit] = useState(5);
     const [page, setPage] = useState(1);
     const [fetchPosts, isPostsLoading, postsError] = useFetching(async () => {
         const response = await PostService.getAll(limit, page);
@@ -57,6 +58,17 @@ function Posts() {
             </MyModal>
             <hr style={{ margin: "15px 0" }}></hr>
             <PostFilter filter={filter} setFilter={setFilter}></PostFilter>
+            <MySelect
+                value={limit}
+                onChange={(limit) => setLimit(limit)}
+                defoultValue={"Количесвто страниц"}
+                options={[
+                    { value: 5, name: "5" },
+                    { value: 10, name: "10" },
+                    { value: 20, name: "20" },
+                    { value: -1, name: "Показать все" },
+                ]}
+            ></MySelect>
             {isPostsLoading ? (
                 <div
                     style={{

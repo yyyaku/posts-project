@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import PostList from "../PostList";
 import PostForm from "../PostForm";
 import PostFilter from "../PostFilter";
@@ -8,7 +8,7 @@ import { usePosts } from "../hooks/usePosts";
 import PostService from "../API/PostSerice";
 import MyLoader from "../UI/loader/MyLoader";
 import { useFetching } from "../hooks/useFetching";
-import { getArrayPages, getPagesCount } from "../util/pages";
+import { getPagesCount } from "../util/pages";
 import MyPagination from "../UI/pagination/MyPagination";
 
 function Posts() {
@@ -42,7 +42,7 @@ function Posts() {
 
     useEffect(() => {
         fetchPosts();
-    }, [page]);
+    }, [page, limit]);
 
     return (
         <div className='App'>
