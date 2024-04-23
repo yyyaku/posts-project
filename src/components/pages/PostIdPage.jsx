@@ -3,33 +3,34 @@ import { useParams } from "react-router-dom";
 import { useFetching } from "../hooks/useFetching";
 import PostService from "../API/PostSerice";
 import MyLoader from "../UI/loader/MyLoader";
+import Comments from "../UI/comments/Comments";
 
 const PostIdPage = () => {
     const params = useParams();
     const [post, setPost] = useState({});
-    const [comments, setComments] = useState([]);
 
     const [fetchPostById, isPostLoading, postError] = useFetching(async () => {
         const response = await PostService.getById(params.id);
         setPost(response.data);
     });
 
-    const [fetchCommentsByIdPost, isCommentsLoading, commentsError] =
-        useFetching(async () => {
-            const response = await PostService.getCommentsByPostId(params.id);
-            setComments(response.data);
-        });
-
     useEffect(() => {
         fetchPostById();
-        fetchCommentsByIdPost();
     }, []);
 
     return (
         <div className='App'>
             <h1>Страница поста c ID = {params.id}</h1>
             {isPostLoading ? (
-                <MyLoader></MyLoader>
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        marginTop: "50px",
+                    }}
+                >
+                    <MyLoader></MyLoader>
+                </div>
             ) : (
                 <div>
                     <h3>
@@ -38,16 +39,7 @@ const PostIdPage = () => {
                     <p>{post.body}</p>
                 </div>
             )}
-            <h1>Комментарии</h1>
-            {comments.map((comm) => (
-                <div key={comm.id} style={{ marginTop: "15px" }}>
-                    <h3>{comm.email}</h3>
-                    <div>
-                        <h5>{comm.name}</h5>
-                        <p>{comm.body}</p>
-                    </div>
-                </div>
-            ))}
+            <Comments></Comments>
         </div>
     );
 };
