@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PostList from "../PostList";
 import PostForm from "../PostForm";
 import PostFilter from "../PostFilter";
@@ -20,12 +20,32 @@ function Posts() {
     const [totalPages, setTotalPages] = useState(0);
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
+    const lastElement = useRef();
+    const observer = useRef();
     const [fetchPosts, isPostsLoading, postsError] = useFetching(async () => {
         const response = await PostService.getAll(limit, page);
-        setPosts(response.data);
+        setPosts([...posts, ...response.data]);
         const totalCount = response.headers["x-total-count"];
         setTotalPages(getPagesCount(totalCount, limit));
     });
+
+    useEffect(() => {
+        if (isPostsLoading) return;
+        if (observer.current) observer.current.disconnect();
+        let callback = (entries, observer) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting && page < totalPages) {
+                    setPage(page + 1);
+                }
+            });
+        };
+        observer.current = new IntersectionObserver(callback);
+        observer.current.observe(lastElement.current);
+    }, [isPostsLoading]);
+
+    useEffect(() => {
+        fetchPosts();
+    }, [page, limit]);
 
     const createPost = (newPost) => {
         setPosts([...posts, newPost]);
@@ -40,10 +60,6 @@ function Posts() {
         setPage(page);
     };
 
-    useEffect(() => {
-        fetchPosts();
-    }, [page, limit]);
-
     return (
         <div className='App'>
             <MyButton
@@ -57,7 +73,16 @@ function Posts() {
             </MyModal>
             <hr style={{ margin: "15px 0" }}></hr>
             <PostFilter filter={filter} setFilter={setFilter}></PostFilter>
-            {isPostsLoading ? (
+            <PostList
+                remove={removePost}
+                posts={sortedAndSearchedPosts}
+                title='Список постов!'
+            ></PostList>
+            <div
+                ref={lastElement}
+                style={{ margin: "15px 0", height: "20px", background: "red" }}
+            ></div>
+            {isPostsLoading && (
                 <div
                     style={{
                         display: "flex",
@@ -67,12 +92,6 @@ function Posts() {
                 >
                     <MyLoader></MyLoader>
                 </div>
-            ) : (
-                <PostList
-                    remove={removePost}
-                    posts={sortedAndSearchedPosts}
-                    title='Список постов!'
-                ></PostList>
             )}
             {postsError && <h1>Ошибка при загрузке данных!!! &{postsError}</h1>}
             <MyPagination
