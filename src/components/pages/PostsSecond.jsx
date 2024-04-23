@@ -9,11 +9,9 @@ import PostService from "../API/PostSerice";
 import MyLoader from "../UI/loader/MyLoader";
 import { useFetching } from "../hooks/useFetching";
 import { getPagesCount } from "../util/pages";
-import MyPagination from "../UI/pagination/MyPagination";
 
 function Posts() {
     const [posts, setPosts] = useState([]);
-
     const [filter, setFilter] = useState({ sort: "", query: "" });
     const [visable, setVisable] = useState(false);
     const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
@@ -80,7 +78,7 @@ function Posts() {
             ></PostList>
             <div
                 ref={lastElement}
-                style={{ margin: "15px 0", height: "20px", background: "red" }}
+                style={{ margin: "15px 0", height: "20px" }}
             ></div>
             {isPostsLoading && (
                 <div
@@ -94,11 +92,6 @@ function Posts() {
                 </div>
             )}
             {postsError && <h1>Ошибка при загрузке данных!!! &{postsError}</h1>}
-            <MyPagination
-                page={page}
-                totalPages={totalPages}
-                changePage={changePage}
-            ></MyPagination>
         </div>
     );
 }
