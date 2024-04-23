@@ -13,7 +13,7 @@ const Nav = () => {
     return (
         <div className={cl.nav}>
             <MyButton onClick={logout}>
-                <Link to='/posts'>Выйти</Link>
+                <Link to='/login'>Выйти</Link>
             </MyButton>
             <div className={cl.nav__links}>
                 <Link className={cl.nav__link} to='/about'>
@@ -21,6 +21,9 @@ const Nav = () => {
                 </Link>
                 <Link className={cl.nav__link} to='/posts'>
                     Посты
+                </Link>
+                <Link className={cl.nav__link} to='/postssecond'>
+                    Посты (бесконечная лента)
                 </Link>
             </div>
         </div>
